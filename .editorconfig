@@ -1,0 +1,90 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# All files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# JavaScript files
+[*.js]
+indent_style = space
+indent_size = 2
+max_line_length = 80
+
+# JSON files
+[*.json]
+indent_style = space
+indent_size = 2
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# YAML files
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Package files
+[package.json]
+indent_style = space
+indent_size = 2
+
+# Config files
+[*.{config.js,conf}]
+indent_style = space
+indent_size = 2
+
+# Shell scripts
+[*.sh]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+
+# Docker files
+[Dockerfile]
+indent_style = space
+indent_size = 2
+
+# Git files
+[.gitignore]
+indent_style = space
+indent_size = 2
+
+# Editor files
+[.editorconfig]
+indent_style = space
+indent_size = 2
+
+# ESLint files
+[.eslintrc.*]
+indent_style = space
+indent_size = 2
+
+# Prettier files
+[.prettierrc*]
+indent_style = space
+indent_size = 2
+
+# Environment files
+[.env*]
+indent_style = space
+indent_size = 2
+
+# Documentation
+[*.{txt,md}]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# Log files
+[*.log]
+trim_trailing_whitespace = false
+max_line_length = off

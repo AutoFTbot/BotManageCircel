@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  botcircle:
+    build: .
+    container_name: botcircle-management
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - botcircle-network
+
+networks:
+  botcircle-network:
+    driver: bridge

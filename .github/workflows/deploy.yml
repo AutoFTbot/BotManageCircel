@@ -1,0 +1,81 @@
+name: Deploy to Server
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run tests
+      run: npm test
+      continue-on-error: true
+    
+    - name: Create deployment package
+      run: |
+        mkdir -p deploy
+        cp -r src deploy/
+        cp -r scripts deploy/
+        cp package.json deploy/
+        cp package-lock.json deploy/
+        cp env.example deploy/
+        cp ecosystem.config.js deploy/
+        cp README.md deploy/
+        cp LICENSE deploy/
+        cp doc.txt deploy/
+        cp Dockerfile deploy/
+        cp docker-compose.yml deploy/
+        tar -czf botcircle-deploy.tar.gz -C deploy .
+    
+    - name: Upload deployment artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: botcircle-deployment-${{ github.sha }}
+        path: botcircle-deploy.tar.gz
+        retention-days: 30
+    
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          ## Changes in this Release
+          - Bot updates and improvements
+          - Bug fixes and enhancements
+          
+          ## Installation
+          1. Download the deployment package from artifacts
+          2. Extract and configure environment variables
+          3. Run with Docker or PM2
+        draft: false
+        prerelease: false

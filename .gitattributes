@@ -1,0 +1,118 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Custom for Visual Studio
+*.cs     diff=csharp
+
+# Standard to msysgit
+*.doc	 diff=astextplain
+*.DOC	 diff=astextplain
+*.docx diff=astextplain
+*.DOCX diff=astextplain
+*.dot  diff=astextplain
+*.DOT  diff=astextplain
+*.pdf  diff=astextplain
+*.PDF	 diff=astextplain
+*.rtf	 diff=astextplain
+*.RTF	 diff=astextplain
+
+# Markdown files
+*.md text
+
+# JSON files
+*.json text
+
+# JavaScript files
+*.js text
+*.jsx text
+
+# TypeScript files
+*.ts text
+*.tsx text
+
+# CSS files
+*.css text
+
+# HTML files
+*.html text
+
+# XML files
+*.xml text
+
+# YAML files
+*.yml text
+*.yaml text
+
+# Log files
+*.log text
+
+# Environment files
+.env text
+.env.* text
+
+# Package files
+package.json text
+package-lock.json text
+
+# Config files
+*.config.js text
+*.conf text
+
+# Documentation
+*.txt text
+*.md text
+README* text
+CHANGELOG* text
+LICENSE* text
+
+# Scripts
+*.sh text
+*.bat text
+*.cmd text
+
+# Docker files
+Dockerfile text
+docker-compose.yml text
+docker-compose.yaml text
+
+# Git files
+.gitignore text
+.gitattributes text
+
+# Editor files
+.editorconfig text
+.eslintrc.* text
+.prettierrc* text
+
+# IDE files
+.vscode/* text
+.idea/* text
+
+# OS files
+.DS_Store binary
+Thumbs.db binary
+
+# Binary files
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.a binary
+*.lib binary
+*.o binary
+*.obj binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.rar binary
+*.7z binary
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary

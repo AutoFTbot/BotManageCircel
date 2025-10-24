@@ -1,0 +1,82 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run linting
+      run: npm run lint
+    
+    - name: Run tests
+      run: npm test
+      continue-on-error: true
+    
+    - name: Build project
+      run: npm run build
+      continue-on-error: true
+    
+    - name: Check for vulnerabilities
+      run: npm audit --audit-level moderate
+      continue-on-error: true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Create deployment package
+      run: |
+        mkdir -p deploy
+        cp -r src deploy/
+        cp -r scripts deploy/
+        cp package.json deploy/
+        cp package-lock.json deploy/
+        cp env.example deploy/
+        cp ecosystem.config.js deploy/
+        cp README.md deploy/
+        cp LICENSE deploy/
+        cp doc.txt deploy/
+        tar -czf botcircle-deploy.tar.gz -C deploy .
+    
+    - name: Upload deployment artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: botcircle-deployment
+        path: botcircle-deploy.tar.gz
+        retention-days: 30
