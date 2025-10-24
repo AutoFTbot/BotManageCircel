@@ -193,6 +193,8 @@ Pilih field yang ingin diisi:
       try {
         const response = await circleService.claimBonus(nomorAdmin, action);
         
+        logger.info('Bonus API Response', { response, action });
+        
         if (response.status === 'success') {
           const data = response.data;
           

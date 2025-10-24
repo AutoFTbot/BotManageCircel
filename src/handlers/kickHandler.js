@@ -212,6 +212,8 @@ Pilih field yang ingin diisi:
       try {
         const response = await circleService.kickMember(nomorAdmin, action);
         
+        logger.info('Kick API Response', { response, action });
+        
         if (response.status === 'success') {
           const data = response.data;
           

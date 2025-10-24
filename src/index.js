@@ -147,6 +147,12 @@ class CircleManagementBot {
       } catch (error) {
         logger.warn('Failed to delete message in cancel callback', { error: error.message });
       }
+      
+      // Clear session when canceling
+      if (ctx.from?.id) {
+        sessionManager.clearSession(ctx.from.id);
+      }
+      
       this.showMainMenu(ctx);
     });
 
