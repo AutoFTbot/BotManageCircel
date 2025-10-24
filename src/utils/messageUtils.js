@@ -9,7 +9,7 @@ class MessageUtils {
   static escapeMarkdown(text) {
     if (!text || typeof text !== 'string') return 'N/A';
     
-    // Escape special Markdown characters
+    // Only escape the most problematic characters for Markdown
     return text
       .replace(/\\/g, '\\\\')  // Escape backslashes first
       .replace(/\*/g, '\\*')   // Escape asterisks
@@ -22,14 +22,19 @@ class MessageUtils {
       .replace(/`/g, '\\`')    // Escape backticks
       .replace(/>/g, '\\>')    // Escape greater than
       .replace(/#/g, '\\#')    // Escape hash
-      .replace(/\+/g, '\\+')   // Escape plus
-      .replace(/-/g, '\\-')    // Escape minus
-      .replace(/=/g, '\\=')    // Escape equals
-      .replace(/\|/g, '\\|')   // Escape pipe
-      .replace(/\{/g, '\\{')   // Escape curly braces
-      .replace(/\}/g, '\\}')   // Escape curly braces
-      .replace(/\./g, '\\.')   // Escape dots
-      .replace(/!/g, '\\!');   // Escape exclamation
+      .replace(/\|/g, '\\|');  // Escape pipe
+  }
+
+  /**
+   * Escape text for inline code blocks
+   * @param {string} text - Text to escape
+   * @returns {string} - Escaped text
+   */
+  static escapeCode(text) {
+    if (!text || typeof text !== 'string') return 'N/A';
+    
+    // Only escape backticks for inline code
+    return text.replace(/`/g, '\\`');
   }
   /**
    * Send message and delete old message if exists
