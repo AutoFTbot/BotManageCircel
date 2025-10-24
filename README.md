@@ -30,8 +30,8 @@ Bot menggunakan **inline keyboard buttons** untuk navigasi yang mudah:
 
 1. **Clone dan install**
    ```bash
-   git clone <repository-url>
-   cd BOTCIRCLE
+   git clone https://github.com/AutoFTbot/BotManageCircel
+   cd BotManageCircel
    npm install
    ```
 
@@ -98,6 +98,8 @@ Edit file `.env`:
 ```env
 BOT_TOKEN=your_telegram_bot_token
 API_KEY=your_api_key
+DEFAULT_ID_TELEGRAM=your_ID_Telegram
+DEFAULT_PASSWORD=your_Password
 ```
 
 ## 📞 Support
