@@ -40,19 +40,14 @@ class CircleService {
   async createCircle(params) {
     const { nomorAdmin, nomorAnggota, namaGroup, namaAdmin, namaAnggota } = params;
     
-    try {
-      const response = await apiClient.makeRequest('create', {
-        nomor_admin: nomorAdmin,
-        nomor_anggota: nomorAnggota,
-        nama_group: namaGroup,
-        nama_admin: namaAdmin,
-        nama_anggota: namaAnggota,
-      });
-      return response;
-    } catch (error) {
-      logger.error('Failed to create circle', { params, error });
-      throw new Error('Gagal membuat grup circle');
-    }
+    const response = await apiClient.makeRequest('create', {
+      nomor_admin: nomorAdmin,
+      nomor_anggota: nomorAnggota,
+      nama_group: namaGroup,
+      nama_admin: namaAdmin,
+      nama_anggota: namaAnggota,
+    });
+    return response;
   }
 
   /**
@@ -62,17 +57,12 @@ class CircleService {
   async inviteMember(params) {
     const { nomorAdmin, nomorAnggota, namaAnggota } = params;
     
-    try {
-      const response = await apiClient.makeRequest('invite', {
-        nomor_admin: nomorAdmin,
-        nomor_anggota: nomorAnggota,
-        nama_anggota: namaAnggota,
-      });
-      return response;
-    } catch (error) {
-      logger.error('Failed to invite member', { params, error });
-      throw new Error('Gagal mengundang anggota baru');
-    }
+    const response = await apiClient.makeRequest('invite', {
+      nomor_admin: nomorAdmin,
+      nomor_anggota: nomorAnggota,
+      nama_anggota: namaAnggota,
+    });
+    return response;
   }
 
   /**
@@ -97,16 +87,11 @@ class CircleService {
    * @param {string} listBonus - Bonus action parameter ('list', 'all', or specific number)
    */
   async claimBonus(nomorAdmin, listBonus = 'list') {
-    try {
-      const response = await apiClient.makeRequest('bonus', {
-        nomor_admin: nomorAdmin,
-        list_bonus: listBonus,
-      });
-      return response;
-    } catch (error) {
-      logger.error('Failed to claim bonus', { nomorAdmin, listBonus, error });
-      throw new Error('Gagal mengklaim bonus');
-    }
+    const response = await apiClient.makeRequest('bonus', {
+      nomor_admin: nomorAdmin,
+      list_bonus: listBonus,
+    });
+    return response;
   }
 
   /**
@@ -115,16 +100,11 @@ class CircleService {
    * @param {string} kickNomor - Kick action parameter ('list' or specific number)
    */
   async kickMember(nomorAdmin, kickNomor = 'list') {
-    try {
-      const response = await apiClient.makeRequest('kick', {
-        nomor_admin: nomorAdmin,
-        kick_nomor: kickNomor,
-      });
-      return response;
-    } catch (error) {
-      logger.error('Failed to kick member', { nomorAdmin, kickNomor, error });
-      throw new Error('Gagal mengeluarkan anggota');
-    }
+    const response = await apiClient.makeRequest('kick', {
+      nomor_admin: nomorAdmin,
+      kick_nomor: kickNomor,
+    });
+    return response;
   }
 }
 
