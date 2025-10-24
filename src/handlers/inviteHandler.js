@@ -188,7 +188,51 @@ Apakah data sudah benar?
       try {
         const response = await circleService.inviteMember(inputData);
         
-        if (response.status === 'success') {
+        // Check if response has error status
+        if (response.status === 'error' || response.data?.status === 'error') {
+          const errorData = response.data || response;
+          let errorMessage = '❌ Terjadi kesalahan saat mengundang anggota';
+          
+          if (errorData.message) {
+            if (errorData.message.includes('Saldo minimal')) {
+              errorMessage = `❌ *Saldo Tidak Mencukupi*\n\n`;
+              errorMessage += `💰 Saldo Tersedia: ${errorData.saldo_tersedia || 'N/A'} IDR\n`;
+              errorMessage += `💳 Saldo Minimal: 25.000 IDR\n\n`;
+              errorMessage += `💡 *Solusi:*\n`;
+              errorMessage += `• Top up saldo terlebih dahulu\n`;
+              errorMessage += `• Minimal saldo: 25.000 IDR\n`;
+              errorMessage += `• Cek saldo dengan menu "Info Circle"`;
+            } else if (errorData.message.includes('already registered as participant')) {
+              errorMessage = `❌ *User Sudah Terdaftar*\n\n`;
+              errorMessage += `👤 Status: User sudah terdaftar sebagai participant\n`;
+              errorMessage += `🚫 Status: Tidak diizinkan untuk action ini\n\n`;
+              errorMessage += `💡 *Solusi:*\n`;
+              errorMessage += `• Gunakan nomor admin yang berbeda\n`;
+              errorMessage += `• Atau hubungi administrator\n`;
+              errorMessage += `• Cek status dengan menu "Info Circle"`;
+            } else if (errorData.message.includes('not allowed status')) {
+              errorMessage = `❌ *Status Tidak Diizinkan*\n\n`;
+              errorMessage += `👤 User: Sudah terdaftar sebagai participant\n`;
+              errorMessage += `🚫 Status: Tidak diizinkan untuk action ini\n\n`;
+              errorMessage += `💡 *Solusi:*\n`;
+              errorMessage += `• Gunakan nomor admin yang berbeda\n`;
+              errorMessage += `• Atau hubungi administrator\n`;
+              errorMessage += `• Cek status dengan menu "Info Circle"`;
+            } else {
+              errorMessage = `❌ *Error API*\n\n${errorData.message}`;
+            }
+          }
+          
+          await MessageUtils.sendAndReplace(
+            ctx,
+            errorMessage,
+            {
+              parse_mode: 'Markdown',
+              reply_markup: ButtonUtils.getBackToMainMenu().reply_markup
+            },
+            loadingMessage.message_id
+          );
+        } else if (response.status === 'success') {
           const data = response.data;
           const nomorPengelola = data.details?.nomor_pengelola || 'N/A';
           const memberName = data.details?.member_name || 'N/A';
