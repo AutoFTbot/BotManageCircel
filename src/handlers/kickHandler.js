@@ -223,11 +223,17 @@ Pilih field yang ingin diisi:
             if (data.members && data.members.length > 0) {
               data.members.forEach((member, index) => {
                 const statusEmoji = member.status === 'CANCELLED' ? '❌' : '✅';
-                message += `*${member.index}. ${member.member_name || 'N/A'}* ${statusEmoji}\n`;
-                message += `📱 Nomor: ${member.msisdn || 'N/A'}\n`;
-                message += `👤 Role: ${member.member_role || 'N/A'}\n`;
-                message += `🎫 Slot: ${member.slot_type || 'N/A'}\n`;
-                message += `📊 Status: ${member.status || 'N/A'}\n\n`;
+                const memberName = MessageUtils.escapeMarkdown(member.member_name);
+                const msisdn = MessageUtils.escapeMarkdown(member.msisdn);
+                const role = MessageUtils.escapeMarkdown(member.member_role);
+                const slotType = MessageUtils.escapeMarkdown(member.slot_type);
+                const status = MessageUtils.escapeMarkdown(member.status);
+                
+                message += `*${member.index}\\. ${memberName}* ${statusEmoji}\n`;
+                message += `📱 Nomor: ${msisdn}\n`;
+                message += `👤 Role: ${role}\n`;
+                message += `🎫 Slot: ${slotType}\n`;
+                message += `📊 Status: ${status}\n\n`;
               });
               
               message += `💡 *Cara Kick:*\n`;
@@ -265,14 +271,22 @@ Pilih field yang ingin diisi:
             let message = '👥 *Hasil Kick Anggota*\n\n';
             
             if (data.member) {
+              const memberName = MessageUtils.escapeMarkdown(data.member.member_name);
+              const msisdn = MessageUtils.escapeMarkdown(data.member.msisdn);
+              const role = MessageUtils.escapeMarkdown(data.member.member_role);
+              const slotType = MessageUtils.escapeMarkdown(data.member.slot_type);
+              const memberId = MessageUtils.escapeMarkdown(data.member.member_id);
+              const groupId = MessageUtils.escapeMarkdown(data.group_id);
+              const status = MessageUtils.escapeMarkdown(data.message);
+              
               message += `✅ *Anggota Berhasil Dikick*\n\n`;
-              message += `👤 Nama: ${data.member.member_name || 'N/A'}\n`;
-              message += `📱 Nomor: ${data.member.msisdn || 'N/A'}\n`;
-              message += `👤 Role: ${data.member.member_role || 'N/A'}\n`;
-              message += `🎫 Slot: ${data.member.slot_type || 'N/A'}\n`;
-              message += `🆔 Member ID: \`${data.member.member_id || 'N/A'}\`\n\n`;
-              message += `🏷️ Group ID: \`${data.group_id || 'N/A'}\`\n`;
-              message += `✅ Status: ${data.message || 'N/A'}`;
+              message += `👤 Nama: ${memberName}\n`;
+              message += `📱 Nomor: ${msisdn}\n`;
+              message += `👤 Role: ${role}\n`;
+              message += `🎫 Slot: ${slotType}\n`;
+              message += `🆔 Member ID: \`${memberId}\`\n\n`;
+              message += `🏷️ Group ID: \`${groupId}\`\n`;
+              message += `✅ Status: ${status}`;
             } else {
               message += '❌ Tidak ada anggota yang berhasil dikick';
             }
@@ -280,11 +294,15 @@ Pilih field yang ingin diisi:
             // Panel Info
             if (data.info_saldo_panel) {
               const panel = data.info_saldo_panel;
+              const idTelegram = MessageUtils.escapeMarkdown(panel.id_telegram);
+              const role = MessageUtils.escapeMarkdown(panel.role);
+              const catatan = MessageUtils.escapeMarkdown(panel.catatan);
+              
               message += `\n\n💰 *Panel Info*\n`;
-              message += `👤 ID Telegram: ${panel.id_telegram || 'N/A'}\n`;
-              message += `🔑 Role: ${panel.role || 'N/A'}\n`;
+              message += `👤 ID Telegram: ${idTelegram}\n`;
+              message += `🔑 Role: ${role}\n`;
               message += `💵 Saldo: ${panel.saldo_tersedia || 'N/A'} IDR\n`;
-              message += `ℹ️ Catatan: ${panel.catatan || 'N/A'}`;
+              message += `ℹ️ Catatan: ${catatan}`;
             }
             
             await MessageUtils.sendAndReplace(

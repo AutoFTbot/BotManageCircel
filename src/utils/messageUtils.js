@@ -2,6 +2,36 @@ const logger = require('./logger');
 
 class MessageUtils {
   /**
+   * Escape special characters for Markdown parsing
+   * @param {string} text - Text to escape
+   * @returns {string} - Escaped text
+   */
+  static escapeMarkdown(text) {
+    if (!text || typeof text !== 'string') return 'N/A';
+    
+    // Escape special Markdown characters
+    return text
+      .replace(/\\/g, '\\\\')  // Escape backslashes first
+      .replace(/\*/g, '\\*')   // Escape asterisks
+      .replace(/_/g, '\\_')    // Escape underscores
+      .replace(/\[/g, '\\[')   // Escape square brackets
+      .replace(/\]/g, '\\]')   // Escape square brackets
+      .replace(/\(/g, '\\(')   // Escape parentheses
+      .replace(/\)/g, '\\)')   // Escape parentheses
+      .replace(/~/g, '\\~')    // Escape tildes
+      .replace(/`/g, '\\`')    // Escape backticks
+      .replace(/>/g, '\\>')    // Escape greater than
+      .replace(/#/g, '\\#')    // Escape hash
+      .replace(/\+/g, '\\+')   // Escape plus
+      .replace(/-/g, '\\-')    // Escape minus
+      .replace(/=/g, '\\=')    // Escape equals
+      .replace(/\|/g, '\\|')   // Escape pipe
+      .replace(/\{/g, '\\{')   // Escape curly braces
+      .replace(/\}/g, '\\}')   // Escape curly braces
+      .replace(/\./g, '\\.')   // Escape dots
+      .replace(/!/g, '\\!');   // Escape exclamation
+  }
+  /**
    * Send message and delete old message if exists
    * @param {Object} ctx - Telegraf context
    * @param {string} message - Message to send

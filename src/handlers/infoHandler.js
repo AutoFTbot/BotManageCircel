@@ -98,20 +98,30 @@ Pilih field yang ingin diisi:
           let message = '📊 *Informasi Circle*\n\n';
           
           // Group Summary
-          message += `🏷️ *Nama Grup:* ${summary?.group_name || 'N/A'}\n`;
-          message += `🆔 *Group ID:* \`${summary?.group_id || 'N/A'}\`\n`;
-          message += `📅 *Dibuat:* ${summary?.created_at?.tanggal || 'N/A'}\n`;
-          message += `📦 *Paket:* ${summary?.package?.name || 'N/A'}\n\n`;
+          const groupName = MessageUtils.escapeMarkdown(summary?.group_name);
+          const groupId = MessageUtils.escapeMarkdown(summary?.group_id);
+          const createdDate = MessageUtils.escapeMarkdown(summary?.created_at?.tanggal);
+          const packageName = MessageUtils.escapeMarkdown(summary?.package?.name);
+          
+          message += `🏷️ *Nama Grup:* ${groupName}\n`;
+          message += `🆔 *Group ID:* \`${groupId}\`\n`;
+          message += `📅 *Dibuat:* ${createdDate}\n`;
+          message += `📦 *Paket:* ${packageName}\n\n`;
           
           // Quota Information
           if (summary?.detail_kuota) {
             const quota = summary.detail_kuota;
+            const benefitName = MessageUtils.escapeMarkdown(quota.benefit?.name);
+            const total = MessageUtils.escapeMarkdown(quota.benefit?.total);
+            const sisa = MessageUtils.escapeMarkdown(quota.benefit?.sisa);
+            const pemakaian = MessageUtils.escapeMarkdown(quota.benefit?.pemakaian);
+            
             message += `📈 *Informasi Kuota*\n`;
             message += `👥 Total Member: ${quota['total-member'] || 0}\n`;
-            message += `📊 Benefit: ${quota.benefit?.name || 'N/A'}\n`;
-            message += `💾 Total: ${quota.benefit?.total || 'N/A'}\n`;
-            message += `📉 Sisa: ${quota.benefit?.sisa || 'N/A'}\n`;
-            message += `📈 Pemakaian: ${quota.benefit?.pemakaian || 'N/A'}\n\n`;
+            message += `📊 Benefit: ${benefitName}\n`;
+            message += `💾 Total: ${total}\n`;
+            message += `📉 Sisa: ${sisa}\n`;
+            message += `📈 Pemakaian: ${pemakaian}\n\n`;
           }
           
           // Slot Information
@@ -124,26 +134,40 @@ Pilih field yang ingin diisi:
           if (members.length > 0) {
             message += `👥 *Daftar Anggota*\n`;
             members.forEach((member, index) => {
-              message += `\n*${index + 1}. ${member.member_name || 'N/A'}*\n`;
-              message += `📱 Nomor: ${member.msisdn || 'N/A'}\n`;
-              message += `👤 Role: ${member.member_role || 'N/A'}\n`;
-              message += `🎫 Slot: ${member.slot_type || 'N/A'}\n`;
-              message += `📊 Status: ${member.status || 'N/A'}\n`;
-              message += `📅 Join: ${member.join_date || 'N/A'}\n`;
-              message += `💾 Total: ${member.total || 'N/A'}\n`;
-              message += `📈 Pemakaian: ${member.pemakaian || 'N/A'}\n`;
-              message += `📉 Sisa: ${member.tersisa || 'N/A'}\n`;
+              const memberName = MessageUtils.escapeMarkdown(member.member_name);
+              const msisdn = MessageUtils.escapeMarkdown(member.msisdn);
+              const role = MessageUtils.escapeMarkdown(member.member_role);
+              const slotType = MessageUtils.escapeMarkdown(member.slot_type);
+              const status = MessageUtils.escapeMarkdown(member.status);
+              const joinDate = MessageUtils.escapeMarkdown(member.join_date);
+              const total = MessageUtils.escapeMarkdown(member.total);
+              const pemakaian = MessageUtils.escapeMarkdown(member.pemakaian);
+              const tersisa = MessageUtils.escapeMarkdown(member.tersisa);
+              
+              message += `\n*${index + 1}\\. ${memberName}*\n`;
+              message += `📱 Nomor: ${msisdn}\n`;
+              message += `👤 Role: ${role}\n`;
+              message += `🎫 Slot: ${slotType}\n`;
+              message += `📊 Status: ${status}\n`;
+              message += `📅 Join: ${joinDate}\n`;
+              message += `💾 Total: ${total}\n`;
+              message += `📈 Pemakaian: ${pemakaian}\n`;
+              message += `📉 Sisa: ${tersisa}\n`;
             });
           }
           
           // Panel Info
           if (response.data?.info_saldo_panel) {
             const panel = response.data.info_saldo_panel;
+            const idTelegram = MessageUtils.escapeMarkdown(panel.id_telegram);
+            const role = MessageUtils.escapeMarkdown(panel.role);
+            const catatan = MessageUtils.escapeMarkdown(panel.catatan);
+            
             message += `\n💰 *Panel Info*\n`;
-            message += `👤 ID Telegram: ${panel.id_telegram || 'N/A'}\n`;
-            message += `🔑 Role: ${panel.role || 'N/A'}\n`;
+            message += `👤 ID Telegram: ${idTelegram}\n`;
+            message += `🔑 Role: ${role}\n`;
             message += `💵 Saldo: ${panel.saldo_tersedia || 'N/A'} IDR\n`;
-            message += `ℹ️ Catatan: ${panel.catatan || 'N/A'}`;
+            message += `ℹ️ Catatan: ${catatan}`;
           }
           
           await MessageUtils.sendAndReplace(
