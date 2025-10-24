@@ -223,13 +223,17 @@ Pilih field yang ingin diisi:
             if (data.members && data.members.length > 0) {
               data.members.forEach((member, index) => {
                 const statusEmoji = member.status === 'CANCELLED' ? '❌' : '✅';
-                const memberName = MessageUtils.escapeMarkdown(member.member_name);
-                const msisdn = MessageUtils.escapeMarkdown(member.msisdn);
-                const role = MessageUtils.escapeMarkdown(member.member_role);
-                const slotType = MessageUtils.escapeMarkdown(member.slot_type);
-                const status = MessageUtils.escapeMarkdown(member.status);
+                // Handle empty member name
+                const memberName = member.member_name && member.member_name.trim() 
+                  ? MessageUtils.escapeMarkdown(member.member_name) 
+                  : (member.member_role === 'PARENT' ? 'Admin' : 'Member');
                 
-                message += `*${member.index}\\. ${memberName}* ${statusEmoji}\n`;
+                const msisdn = member.msisdn || 'N/A';
+                const role = member.member_role || 'N/A';
+                const slotType = member.slot_type || 'N/A';
+                const status = member.status || 'N/A';
+                
+                message += `*${member.index}. ${memberName}* ${statusEmoji}\n`;
                 message += `📱 Nomor: ${msisdn}\n`;
                 message += `👤 Role: ${role}\n`;
                 message += `🎫 Slot: ${slotType}\n`;
@@ -271,21 +275,25 @@ Pilih field yang ingin diisi:
             let message = '👥 *Hasil Kick Anggota*\n\n';
             
             if (data.member) {
-              const memberName = MessageUtils.escapeMarkdown(data.member.member_name);
-              const msisdn = MessageUtils.escapeMarkdown(data.member.msisdn);
-              const role = MessageUtils.escapeMarkdown(data.member.member_role);
-              const slotType = MessageUtils.escapeMarkdown(data.member.slot_type);
-              const memberId = MessageUtils.escapeMarkdown(data.member.member_id);
-              const groupId = MessageUtils.escapeMarkdown(data.group_id);
-              const status = MessageUtils.escapeMarkdown(data.message);
+              // Handle empty member name
+              const memberName = data.member.member_name && data.member.member_name.trim() 
+                ? MessageUtils.escapeMarkdown(data.member.member_name) 
+                : (data.member.member_role === 'PARENT' ? 'Admin' : 'Member');
+              
+              const msisdn = data.member.msisdn || 'N/A';
+              const role = data.member.member_role || 'N/A';
+              const slotType = data.member.slot_type || 'N/A';
+              const memberId = data.member.member_id || 'N/A';
+              const groupId = data.group_id || 'N/A';
+              const status = data.message || 'N/A';
               
               message += `✅ *Anggota Berhasil Dikick*\n\n`;
               message += `👤 Nama: ${memberName}\n`;
               message += `📱 Nomor: ${msisdn}\n`;
               message += `👤 Role: ${role}\n`;
               message += `🎫 Slot: ${slotType}\n`;
-              message += `🆔 Member ID: \`${memberId}\`\n\n`;
-              message += `🏷️ Group ID: \`${groupId}\`\n`;
+              message += `🆔 Member ID: \`${MessageUtils.escapeCode(memberId)}\`\n\n`;
+              message += `🏷️ Group ID: \`${MessageUtils.escapeCode(groupId)}\`\n`;
               message += `✅ Status: ${status}`;
             } else {
               message += '❌ Tidak ada anggota yang berhasil dikick';
@@ -294,9 +302,9 @@ Pilih field yang ingin diisi:
             // Panel Info
             if (data.info_saldo_panel) {
               const panel = data.info_saldo_panel;
-              const idTelegram = MessageUtils.escapeMarkdown(panel.id_telegram);
-              const role = MessageUtils.escapeMarkdown(panel.role);
-              const catatan = MessageUtils.escapeMarkdown(panel.catatan);
+              const idTelegram = panel.id_telegram || 'N/A';
+              const role = panel.role || 'N/A';
+              const catatan = panel.catatan || 'N/A';
               
               message += `\n\n💰 *Panel Info*\n`;
               message += `👤 ID Telegram: ${idTelegram}\n`;

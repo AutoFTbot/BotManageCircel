@@ -200,14 +200,23 @@ Apakah data sudah benar?
         
         if (response.status === 'success') {
           const data = response.data;
+          const groupName = data.details?.group_name || 'N/A';
+          const ownerName = data.details?.owner_name || 'N/A';
+          const nomorPengelola = data.details?.nomor_pengelola || 'N/A';
+          const memberName = data.details?.member_name || 'N/A';
+          const nomorMember = data.details?.nomor_member || 'N/A';
+          const groupId = data.details?.group_id || 'N/A';
+          const memberId = data.details?.member_id || 'N/A';
+          const status = data.message || 'N/A';
+          
           let message = '✅ *Circle Berhasil Dibuat*\n\n';
-          message += `🏷️ Nama Grup: ${data.details?.group_name || 'N/A'}\n`;
-          message += `👤 Admin: ${data.details?.owner_name || 'N/A'} (${data.details?.nomor_pengelola || 'N/A'})\n`;
-          message += `👥 Anggota: ${data.details?.member_name || 'N/A'} (${data.details?.nomor_member || 'N/A'})\n`;
-          message += `🆔 Group ID: \`${data.details?.group_id || 'N/A'}\`\n`;
-          message += `🆔 Member ID: \`${data.details?.member_id || 'N/A'}\`\n\n`;
+          message += `🏷️ Nama Grup: ${groupName}\n`;
+          message += `👤 Admin: ${ownerName} (${nomorPengelola})\n`;
+          message += `👥 Anggota: ${memberName} (${nomorMember})\n`;
+          message += `🆔 Group ID: \`${MessageUtils.escapeCode(groupId)}\`\n`;
+          message += `🆔 Member ID: \`${MessageUtils.escapeCode(memberId)}\`\n\n`;
           message += `💰 Saldo Tersedia: ${data.info_saldo_panel?.saldo_tersedia || 'N/A'} IDR\n`;
-          message += `✅ Status: ${data.message}`;
+          message += `✅ Status: ${status}`;
           
           await MessageUtils.sendAndReplace(
             ctx,

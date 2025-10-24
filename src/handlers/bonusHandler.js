@@ -203,9 +203,13 @@ Pilih field yang ingin diisi:
             
             if (data.bonuses && data.bonuses.length > 0) {
               data.bonuses.forEach((bonus, index) => {
-                message += `*${bonus.index}. ${bonus.title}*\n`;
-                message += `📝 Deskripsi: ${bonus.description || '-'}\n`;
-                message += `📊 Status: ${bonus.status || '-'}\n\n`;
+                const title = bonus.title || 'N/A';
+                const description = bonus.description || '-';
+                const status = bonus.status || '-';
+                
+                message += `*${bonus.index}. ${title}*\n`;
+                message += `📝 Deskripsi: ${description}\n`;
+                message += `📊 Status: ${status}\n\n`;
               });
               
               message += `💡 *Cara Klaim:*\n`;
@@ -248,11 +252,17 @@ Pilih field yang ingin diisi:
               message += `✅ Berhasil mengklaim ${data.count || 0} bonus\n\n`;
               
               data.results.forEach((result, index) => {
-                message += `*${index + 1}. ${result.bonus?.name || 'N/A'}*\n`;
-                message += `📊 Status: ${result.status || 'N/A'}\n`;
-                message += `💰 Total Amount: ${result.resp?.data?.total_amount || 0} IDR\n`;
-                message += `🆔 Transaction Code: ${result.resp?.data?.transaction_code || 'N/A'}\n`;
-                message += `💳 Payment Method: ${result.resp?.data?.payment_method || 'N/A'}\n\n`;
+                const bonusName = result.bonus?.name || 'N/A';
+                const status = result.status || 'N/A';
+                const totalAmount = result.resp?.data?.total_amount || 0;
+                const transactionCode = result.resp?.data?.transaction_code || 'N/A';
+                const paymentMethod = result.resp?.data?.payment_method || 'N/A';
+                
+                message += `*${index + 1}. ${bonusName}*\n`;
+                message += `📊 Status: ${status}\n`;
+                message += `💰 Total Amount: ${totalAmount} IDR\n`;
+                message += `🆔 Transaction Code: \`${MessageUtils.escapeCode(transactionCode)}\`\n`;
+                message += `💳 Payment Method: ${paymentMethod}\n\n`;
               });
             } else {
               message += '❌ Tidak ada bonus yang berhasil diklaim';
