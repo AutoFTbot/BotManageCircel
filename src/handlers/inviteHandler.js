@@ -218,10 +218,31 @@ Apakah data sudah benar?
           );
         }
       } catch (error) {
+        let errorMessage = '❌ Terjadi kesalahan saat mengundang anggota';
+        
+        // Handle specific API errors
+        if (error.response && error.response.data) {
+          const apiError = error.response.data;
+          if (apiError.message) {
+            if (apiError.message.includes('Saldo minimal')) {
+              errorMessage = `❌ *Saldo Tidak Mencukupi*\n\n`;
+              errorMessage += `💰 Saldo Tersedia: ${apiError.saldo_tersedia || 'N/A'} IDR\n`;
+              errorMessage += `💳 Saldo Minimal: 25.000 IDR\n\n`;
+              errorMessage += `💡 *Solusi:*\n`;
+              errorMessage += `• Top up saldo terlebih dahulu\n`;
+              errorMessage += `• Minimal saldo: 25.000 IDR\n`;
+              errorMessage += `• Cek saldo dengan menu "Info Circle"`;
+            } else {
+              errorMessage = `❌ *Error API*\n\n${apiError.message}`;
+            }
+          }
+        }
+        
         await MessageUtils.sendAndReplace(
           ctx,
-          '❌ Terjadi kesalahan saat mengundang anggota',
+          errorMessage,
           {
+            parse_mode: 'Markdown',
             reply_markup: ButtonUtils.getBackToMainMenu().reply_markup
           },
           loadingMessage.message_id
