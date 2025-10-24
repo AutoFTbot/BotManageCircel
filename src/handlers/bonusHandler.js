@@ -303,6 +303,22 @@ Pilih field yang ingin diisi:
               errorMessage += `• Top up saldo terlebih dahulu\n`;
               errorMessage += `• Minimal saldo: 25.000 IDR\n`;
               errorMessage += `• Cek saldo dengan menu "Info Circle"`;
+            } else if (apiError.message.includes('already registered as participant')) {
+              errorMessage = `❌ *User Sudah Terdaftar*\n\n`;
+              errorMessage += `👤 Status: User sudah terdaftar sebagai participant\n`;
+              errorMessage += `🚫 Status: Tidak diizinkan untuk action ini\n\n`;
+              errorMessage += `💡 *Solusi:*\n`;
+              errorMessage += `• Gunakan nomor admin yang berbeda\n`;
+              errorMessage += `• Atau hubungi administrator\n`;
+              errorMessage += `• Cek status dengan menu "Info Circle"`;
+            } else if (apiError.message.includes('not allowed status')) {
+              errorMessage = `❌ *Status Tidak Diizinkan*\n\n`;
+              errorMessage += `👤 User: Sudah terdaftar sebagai participant\n`;
+              errorMessage += `🚫 Status: Tidak diizinkan untuk action ini\n\n`;
+              errorMessage += `💡 *Solusi:*\n`;
+              errorMessage += `• Gunakan nomor admin yang berbeda\n`;
+              errorMessage += `• Atau hubungi administrator\n`;
+              errorMessage += `• Cek status dengan menu "Info Circle"`;
             } else {
               errorMessage = `❌ *Error API*\n\n${apiError.message}`;
             }
