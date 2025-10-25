@@ -1,4 +1,5 @@
 const { Telegraf } = require('telegraf');
+const express = require('express');
 const config = require('./config');
 const logger = require('./utils/logger');
 const ButtonUtils = require('./utils/buttonUtils');
@@ -17,8 +18,37 @@ const kickHandler = require('./handlers/kickHandler');
 class CircleManagementBot {
   constructor() {
     this.bot = new Telegraf(config.bot.token);
+    this.app = express();
+    this.setupWebServer();
     this.setupCommands();
     this.setupErrorHandling();
+  }
+
+  setupWebServer() {
+    // Health check endpoint
+    this.app.get('/health', (req, res) => {
+      res.status(200).json({
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        service: 'Circle Management Bot'
+      });
+    });
+
+    // Root endpoint
+    this.app.get('/', (req, res) => {
+      res.json({
+        message: 'Circle Management Bot is running',
+        status: 'active',
+        version: '1.0.0'
+      });
+    });
+
+    // Start web server
+    const port = process.env.PORT || 3000;
+    this.app.listen(port, () => {
+      logger.info(`Web server started on port ${port}`);
+    });
   }
 
   setupCommands() {

@@ -16,18 +16,29 @@
     "pm2:restart": "pm2 restart ecosystem.config.js",
     "pm2:delete": "pm2 delete ecosystem.config.js"
   },
-  "keywords": ["telegram", "bot", "circle", "management", "api"],
+  "keywords": [
+    "telegram",
+    "bot",
+    "circle",
+    "management",
+    "api"
+  ],
   "author": "AutoFtBotXhidepulsa",
   "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
-    "telegraf": "^4.15.6",
     "axios": "^1.6.2",
     "dotenv": "^16.3.1",
-    "winston": "^3.11.0",
-    "joi": "^17.11.0"
+    "express": "^4.21.2",
+    "joi": "^17.11.0",
+    "telegraf": "^4.15.6",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2",
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2"
   }
 }

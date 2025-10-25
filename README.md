@@ -102,6 +102,71 @@ DEFAULT_ID_TELEGRAM=your_ID_Telegram
 DEFAULT_PASSWORD=your_Password
 ```
 
+## 🚀 Deployment ke Heroku
+
+### 1. Deploy via Heroku CLI
+
+```bash
+# Install Heroku CLI
+# https://devcenter.heroku.com/articles/heroku-cli
+
+# Login ke Heroku
+heroku login
+
+# Create app
+heroku create your-bot-name
+
+# Set environment variables
+heroku config:set BOT_TOKEN=your_telegram_bot_token
+heroku config:set API_KEY=your_api_key
+heroku config:set API_BASE_URL=https://api.hidepulsa.com/api/circle
+heroku config:set DEFAULT_ID_TELEGRAM=your_ID_Telegram
+heroku config:set DEFAULT_PASSWORD=your_Password
+
+# Deploy
+git push heroku main
+
+# Check logs
+heroku logs --tail
+```
+
+### 2. Deploy via GitHub
+
+1. Fork repository ini
+2. Connect ke Heroku
+3. Set environment variables di dashboard Heroku
+4. Enable auto-deploy
+
+### 3. Deploy ke Platform Lain
+
+#### Railway
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Login
+railway login
+
+# Deploy
+railway up
+```
+
+#### Render
+1. Connect GitHub repository
+2. Set environment variables
+3. Deploy
+
+#### DigitalOcean App Platform
+1. Connect GitHub repository
+2. Set environment variables
+3. Deploy
+
+### 4. Health Check
+
+Bot menyediakan endpoint health check:
+- `GET /health` - Status bot
+- `GET /` - Info bot
+
 ## 📞 Support
 
 - Cek logs di folder `logs/`

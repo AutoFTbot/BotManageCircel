@@ -1,0 +1,47 @@
+{
+  "name": "Circle Management Bot",
+  "description": "Telegram bot for Circle Management API with button-based interface",
+  "repository": "https://github.com/AutoFTbot/BotManageCircel",
+  "logo": "https://raw.githubusercontent.com/AutoFTbot/BotManageCircel/main/assets/logo.png",
+  "keywords": ["telegram", "bot", "circle", "management", "api", "nodejs"],
+  "env": {
+    "BOT_TOKEN": {
+      "description": "Telegram Bot Token from @BotFather",
+      "required": true
+    },
+    "API_BASE_URL": {
+      "description": "Circle Management API Base URL",
+      "required": true,
+      "value": "https://api.circle-management.com"
+    },
+    "API_KEY": {
+      "description": "API Key for Circle Management API",
+      "required": true
+    },
+    "NODE_ENV": {
+      "description": "Node environment",
+      "value": "production"
+    },
+    "PORT": {
+      "description": "Port for the application",
+      "value": "3000"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "addons": [
+    {
+      "plan": "heroku-postgresql:mini",
+      "as": "DATABASE"
+    }
+  ]
+}
